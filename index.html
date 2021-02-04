@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>REPLACE</title>
-    <link rel="icon" href=favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="description" content="REPLACE">
 
@@ -73,6 +73,15 @@ summary::-webkit-details-marker { display: none; }
       const BASE_URL = 'https://cloud.iexapis.com/stable/stock/market/batch';
       const FAVICON_SYMBOL = 'GME';
       const FAVICON_BASE_URL = '/stocks';
+      var price = 0;
+      var change = 0;
+      var changePercent = 0;
+      var shares = 0;
+      var pricePaid = 0;
+      var daysGain = 0;
+      var totalGain = 0;
+      var totalGainPercent = 0;
+      var currentValue = 0;
 
       let symbols = [FAVICON_SYMBOL];
       let updatedDiv = document.querySelector('.updated-timestamp');
@@ -84,6 +93,7 @@ summary::-webkit-details-marker { display: none; }
       setInterval(updateData, REFRESH_SECONDS * 1000);
 
       function addPortfolio(portfolio, includeHeader) {
+        console.log(portfolio+":"+includeHeader);
         let tableHeaderHtml = '';
         if (includeHeader) {
           tableHeaderHtml = `
@@ -111,15 +121,15 @@ summary::-webkit-details-marker { display: none; }
           let html = `
             <tr data-symbol="${symbol}">
               <td class="stock-symbol">${symbol}</td>
-              <td class="stock-price"></td>
-              <td class="stock-change"></td>
-              <td class="stock-change-pct"></td>
-              <td class="shares">50000</td>
-			  <td class="price-paid">14.8947</td>
-			  <td class="days-gain"></td>
-			  <td class="total-gain"></td>
-			  <td class="total-gain-percent"></td>
-			  <td class="current-value"></td>
+              <td class="stock-price">${price}</td>
+              <td class="stock-change">${change}</td>
+              <td class="stock-change-pct">${changePercent}</td>
+              <td class="shares">${shares}</td>
+			  <td class="price-paid">${pricePaid}</td>
+			  <td class="days-gain">${daysGain}</td>
+			  <td class="total-gain">${totalGain}</td>
+			  <td class="total-gain-percent">${totalGainPercent}</td>
+			  <td class="current-value">${currentValue}</td>
             </tr>
           `
 
