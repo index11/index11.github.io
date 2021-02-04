@@ -10,10 +10,9 @@
 
     <style>
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-          "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+        font-family: arial, sans-serif;
       }
-      table { font-family: Courier, monospace; }
+      table { font-family: arial, sans-serif; }
       .stocks-container {
         margin-bottom: 1.5em;
         width: 100%;
@@ -25,6 +24,9 @@
         width: 100%;
         font-size: 1.1em;
       }
+	  td {
+		font-weight: 400; 
+	  }	
       .stock-symbol {
         width: 12%;
         padding: 2px 4px 2px 0px;
@@ -34,6 +36,36 @@
         text-align: center;
         padding: 2px 10px;
       }
+	  .tg  {
+	  border-collapse:collapse; 
+	  border-spacing:0;
+	  width:200px;
+	  }
+	  .tg td{
+	  border-color:black; 
+	  border-style:solid; 
+	  border-width:1px; 
+	  font-family:Arial, sans-serif; 
+	  font-size:14px; 
+	  overflow:hidden;
+	  padding:10px 5px; 
+	  word-break:normal;
+	  }
+	  .tg th{
+	  border-color:black; 
+	  border-style:solid; 
+	  border-width:1px; 
+	  font-family:Arial, sans-serif; 
+	  font-size:14px;
+	  font-weight:normal; 
+	  overflow:hidden; 
+	  padding:10px 5px; 
+	  word-break:normal;
+	  }
+	  .tg .tg-0lax{
+	  text-align:left;
+	  vertical-align:top;
+	  }
       @media (max-width: 576px) {
         table { margin-bottom: 3em; }
         .stock-mkt-cap { display: none; }
@@ -51,7 +83,39 @@ summary::-webkit-details-marker { display: none; }
   <body>
 
     <div class="stocks-container"></div>
-	<p>Total Cost: 744735</p>
+
+<table class="tg">
+<tbody>
+  <tr>
+    <td class="tg-0lax">Open</td>
+    <td class="tg-0lax">65.58</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Today's High</td>
+    <td class="tg-0lax">91.50</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Today's Low</td>
+    <td class="tg-0lax">65.58</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Previous Close</td>
+    <td class="tg-0lax">92.41</td>
+  </tr>
+    <tr>
+    <td class="tg-0lax">Market Cap</td>
+    <td class="tg-0lax">4.62B</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Total Cost</td>
+    <td class="tg-0lax">744,735</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Previous Day Portfolio Value</td>
+    <td class="tg-0lax">'0'</td>
+  </tr>
+</tbody>
+</table>
                                  
     <p class="updated-timestamp"></p>
                             
@@ -61,7 +125,7 @@ summary::-webkit-details-marker { display: none; }
       'use strict';
 
       const DEFAULT_PORTFOLIOS = [
-        {'name': 'Portfolio', 'symbols': ['GME']},
+        {'name': 'Portfolio1', 'symbols': ['GME']},
       ];
 
       // register for a token at https://iexcloud.io/
@@ -76,12 +140,13 @@ summary::-webkit-details-marker { display: none; }
       var price = 0;
       var change = 0;
       var changePercent = 0;
-      var shares = 0;
-      var pricePaid = 0;
+      var shares = '50,000';
+      var pricePaid = 14.8947;
       var daysGain = 0;
       var totalGain = 0;
       var totalGainPercent = 0;
       var currentValue = 0;
+	  var previousClose = 0;
 
       let symbols = [FAVICON_SYMBOL];
       let updatedDiv = document.querySelector('.updated-timestamp');
@@ -109,6 +174,7 @@ summary::-webkit-details-marker { display: none; }
 				<th class="total-gain">Total Gain</th>
 				<th class="total-gain-percent">Total Gain %</th>
 				<th class="current-value">Current Value</th>
+				<td class="previous-close">PreviousClose</td>
               </tr>
             </thead>
           `
@@ -120,16 +186,17 @@ summary::-webkit-details-marker { display: none; }
 
           let html = `
             <tr data-symbol="${symbol}">
-              <td class="stock-symbol">${symbol}</td>
-              <td class="stock-price">${price}</td>
-              <td class="stock-change">${change}</td>
-              <td class="stock-change-pct">${changePercent}</td>
-              <td class="shares">${shares}</td>
-			  <td class="price-paid">${pricePaid}</td>
-			  <td class="days-gain">${daysGain}</td>
-			  <td class="total-gain">${totalGain}</td>
-			  <td class="total-gain-percent">${totalGainPercent}</td>
-			  <td class="current-value">${currentValue}</td>
+              <td class="stock-symbol"></td>
+              <td class="stock-price"></td>
+              <td class="stock-change"></td>
+              <td class="stock-change-pct"></td>
+              <td class="shares">50,000</td>
+			  <td class="price-paid">14.8947</td>
+			  <td class="days-gain"></td>
+			  <td class="total-gain"></td>
+			  <td class="total-gain-percent"></td>
+			  <td class="current-value"></td>
+			  <td class="previous-close"></td>
             </tr>
           `
 
@@ -160,7 +227,7 @@ summary::-webkit-details-marker { display: none; }
       }
 
       function updateDataForBatch(symbols, addTitle) {
-        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap'];
+        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap', 'previousClose',];
         if (addTitle) filters.push('companyName');
         let url = `${BASE_URL}?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&token=${API_TOKEN}`;
 
@@ -173,6 +240,7 @@ summary::-webkit-details-marker { display: none; }
             let formattedChange = formatChange(data.quote.change);
             let formattedChangePercent = formatChangePercent(data.quote.changePercent);
             let formattedMarketCap = formatMarketCap(data.quote.marketCap);
+			let formattedPreviousClose = formatQuote(Number(data.quote.previousClose));
             let bgColorStyle = calculateBgColorStyle(data.quote.changePercent)
 
             document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach(e => {
@@ -264,7 +332,7 @@ summary::-webkit-details-marker { display: none; }
         let rgbColor = changePercent > 0 ? '0,255,0' : '255,0,0';
         let rgbOpacity = Math.min(Math.abs(changePercent) * 20, 1);
 
-        return `background-color: rgba(${rgbColor}, ${rgbOpacity})`;
+        return `color: rgba(${rgbColor}, ${rgbOpacity})`;
       }
 
       function updateFavicon(quote) {
