@@ -1,132 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
     <title>REPLACE</title>
-    <link rel="icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <meta name="description" content="REPLACE">
+    <link rel="icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="description" content="REPLACE" />
 
     <style>
       body {
         font-family: arial, sans-serif;
       }
-      table { font-family: arial, sans-serif; }
+      table {
+        font-family: arial, sans-serif;
+      }
       .stocks-container {
         margin-bottom: 1.5em;
         width: 100%;
         max-width: 600px;
       }
-      .stocks-container a { text-decoration: none; }
+      .stocks-container a {
+        text-decoration: none;
+      }
       table {
         border-collapse: collapse;
         width: 100%;
         font-size: 1.1em;
       }
-	  td {
-		font-weight: 400; 
-	  }	
+      td {
+        font-weight: 400;
+      }
       .stock-symbol {
         width: 12%;
         padding: 2px 4px 2px 0px;
       }
-      .stock-price, .stock-change, .stock-change-pct, .stock-mkt-cap, .shares, .price-paid, .days-gain, .total-gain, .total-gain-percent, .current-value {
+      .stock-price,
+      .stock-change,
+      .stock-change-pct,
+      .stock-mkt-cap,
+      .shares,
+      .price-paid,
+      .days-gain,
+      .total-gain,
+      .total-gain-percent,
+      .current-value {
         width: 22%;
         text-align: center;
         padding: 2px 10px;
       }
-	  .tg  {
-	  border-collapse:collapse; 
-	  border-spacing:0;
-	  width:200px;
-	  }
-	  .tg td{
-	  border-color:black; 
-	  border-style:solid; 
-	  border-width:1px; 
-	  font-family:Arial, sans-serif; 
-	  font-size:14px; 
-	  overflow:hidden;
-	  padding:10px 5px; 
-	  word-break:normal;
-	  }
-	  .tg th{
-	  border-color:black; 
-	  border-style:solid; 
-	  border-width:1px; 
-	  font-family:Arial, sans-serif; 
-	  font-size:14px;
-	  font-weight:normal; 
-	  overflow:hidden; 
-	  padding:10px 5px; 
-	  word-break:normal;
-	  }
-	  .tg .tg-0lax{
-	  text-align:left;
-	  vertical-align:top;
-	  }
+      .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 200px;
+      }
+      .tg td {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+      .tg th {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+      }
+      .tg .tg-0lax {
+        text-align: left;
+        vertical-align: top;
+      }
       @media (max-width: 576px) {
-        table { margin-bottom: 3em; }
-        .stock-mkt-cap { display: none; }
-        .stock-symbol { width: 16%; }
-        .stock-price, .stock-change, .stock-change-pct, .shares, .price-paid, .days-gain, .total-gain, .total-gain-percent, .current-value { width: 28%; }
-        td.stock-symbol, td.stock-price, td.stock-change, td.stock-change-pct, td.shares, td.price-paid, td.days-gain, td.total-gain, td.total-gain-percent, td.current-value {
+        table {
+          margin-bottom: 3em;
+        }
+        .stock-mkt-cap {
+          display: none;
+        }
+        .stock-symbol {
+          width: 16%;
+        }
+        .stock-price,
+        .stock-change,
+        .stock-change-pct,
+        .shares,
+        .price-paid,
+        .days-gain,
+        .total-gain,
+        .total-gain-percent,
+        .current-value {
+          width: 28%;
+        }
+        td.stock-symbol,
+        td.stock-price,
+        td.stock-change,
+        td.stock-change-pct,
+        td.shares,
+        td.price-paid,
+        td.days-gain,
+        td.total-gain,
+        td.total-gain-percent,
+        td.current-value {
           padding-top: 1em;
           padding-bottom: 1em;
         }
       }
-summary::-webkit-details-marker { display: none; }                                              
+      summary::-webkit-details-marker {
+        display: none;
+      }
     </style>
   </head>
 
   <body>
-
     <div class="stocks-container"></div>
 
-<table class="tg">
-<tbody>
-  <tr >
-    <td class="tg-0lax">Open</td>
-    <td class="tg-0lax">65.58</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">Today's High</td>
-    <td class="tg-0lax">91.50</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">Today's Low</td>
-    <td class="tg-0lax">65.58</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">Previous Close</td>
-    <td class="previous-close"></td>
-  </tr>
-    <tr>
-    <td class="tg-0lax">Market Cap</td>
-    <td class="tg-0lax">4.62B</td>
-  </tr>
-  <tr>
-    <td class="tg-0lax">Total Cost</td>
-    <td class="tg-0lax">744,735</td>
-  </tr>
-  <tr >
-    <td class="tg-0lax">Previous Day Portfolio Value</td>
-    <td class="tg-0lax"></td>
-  </tr>
-</tbody>
-</table>
-                                 
+    <table class="tg">
+      <tbody>
+        <tr>
+          <td class="tg-0lax">Open</td>
+          <td class="tg-0lax">65.58</td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Today's High</td>
+          <td class="tg-0lax">91.50</td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Today's Low</td>
+          <td class="tg-0lax">65.58</td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Previous Close</td>
+          <td class="previous-close prev-close"></td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Market Cap</td>
+          <td class="tg-0lax">4.62B</td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Total Cost</td>
+          <td class="tg-0lax">744,735</td>
+        </tr>
+        <tr>
+          <td class="tg-0lax">Previous Day Portfolio Value</td>
+          <td class="tg-0lax prev-day-portfolio"></td>
+        </tr>
+      </tbody>
+    </table>
+
     <p class="updated-timestamp"></p>
-                            
- 
 
     <script>
       'use strict';
 
-      const DEFAULT_PORTFOLIOS = [
-        {'name': 'Portfolio1', 'symbols': ['GME']},
-      ];
+      const DEFAULT_PORTFOLIOS = [{ name: 'Portfolio1', symbols: ['GME'] }];
 
       // register for a token at https://iexcloud.io/
       const API_TOKEN = 'pk_631169fd89684343bda990ebf2b5861b';
@@ -146,11 +181,11 @@ summary::-webkit-details-marker { display: none; }
       var totalGain = 0;
       var totalGainPercent = 0;
       var currentValue = 0;
-	  var previousClose = 0;
+      var previousClose = 0;
 
       let symbols = [FAVICON_SYMBOL];
       let updatedDiv = document.querySelector('.updated-timestamp');
-      let containerDiv = document.querySelector('.stocks-container');                                                                                            
+      let containerDiv = document.querySelector('.stocks-container');
 
       PORTFOLIOS.forEach((p, i) => addPortfolio(p, i === 0));
       symbols = symbols.filter((s, i) => symbols.indexOf(s) === i);
@@ -158,7 +193,7 @@ summary::-webkit-details-marker { display: none; }
       setInterval(updateData, REFRESH_SECONDS * 1000);
 
       function addPortfolio(portfolio, includeHeader) {
-        console.log(portfolio+":"+includeHeader);
+        console.log(portfolio + ':' + includeHeader);
         let tableHeaderHtml = '';
         if (includeHeader) {
           tableHeaderHtml = `
@@ -174,17 +209,17 @@ summary::-webkit-details-marker { display: none; }
 				<th class="total-gain">Total Gain</th>
 				<th class="total-gain-percent">Total Gain %</th>
 				<th class="current-value">Current Value</th>
-				<td class="previous-close">Previous Close</td>
               </tr>
             </thead>
-          `
+          `;
         }
 
-        let tableBodyHtml = portfolio.symbols.map(symbol => {
-          symbol = symbol.toUpperCase();
-          symbols.push(symbol);
+        let tableBodyHtml = portfolio.symbols
+          .map((symbol) => {
+            symbol = symbol.toUpperCase();
+            symbols.push(symbol);
 
-          let html = `
+            let html = `
             <tr data-symbol="${symbol}">
               <td class="stock-symbol">${symbol}</td>
               <td class="stock-price"></td>
@@ -196,12 +231,12 @@ summary::-webkit-details-marker { display: none; }
 			  <td class="total-gain"></td>
 			  <td class="total-gain-percent"></td>
 			  <td class="current-value"></td>
-			  <td class="previous-close"></td>
             </tr>
-          `
+          `;
 
-          return html;
-        }).join('');
+            return html;
+          })
+          .join('');
 
         let portfolioDiv = document.createElement('div');
 
@@ -219,59 +254,97 @@ summary::-webkit-details-marker { display: none; }
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE);
 
         for (let i = 0; i < numberOfBatches; i++) {
-          let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE);
+          let symbolsBatch = symbols.slice(
+            i * BATCH_SIZE,
+            (i + 1) * BATCH_SIZE
+          );
           updateDataForBatch(symbolsBatch, addTitle);
         }
 
-        updatedDiv.innerHTML = `Data updated at ${(new Date()).toLocaleString()}`;
+        updatedDiv.innerHTML = `Data updated at ${new Date().toLocaleString()}`;
       }
 
       function updateDataForBatch(symbols, addTitle) {
-        let filters = ['latestPrice', 'change', 'changePercent', 'marketCap', 'previousClose',];
+        let filters = [
+          'latestPrice',
+          'change',
+          'changePercent',
+          'marketCap',
+          'previousClose',
+        ];
         if (addTitle) filters.push('companyName');
-        let url = `${BASE_URL}?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&token=${API_TOKEN}`;
+        let url = `${BASE_URL}?types=quote&symbols=${symbols.join(
+          ','
+        )}&filter=${filters.join(',')}&token=${API_TOKEN}`;
 
-        fetch(url).then(response => response.json()).then(json => {
-          symbols.forEach(symbol => {
-            let data = json[symbol];
-            if (typeof(data) === 'undefined' || !data.quote.latestPrice) return;
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            symbols.forEach((symbol) => {
+              let data = json[symbol];
+              if (typeof data === 'undefined' || !data.quote.latestPrice)
+                return;
 
-            let formattedPrice = formatQuote(Number(data.quote.latestPrice));
-            let formattedChange = formatChange(data.quote.change);
-            let formattedChangePercent = formatChangePercent(data.quote.changePercent);
-            let formattedMarketCap = formatMarketCap(data.quote.marketCap);
-			let formattedPreviousClose = formatPreviousClose(data.quote.previousClose);
-            let bgColorStyle = calculateBgColorStyle(data.quote.changePercent)
+              let formattedPrice = formatQuote(Number(data.quote.latestPrice));
+              let formattedChange = formatChange(data.quote.change);
+              let formattedChangePercent = formatChangePercent(
+                data.quote.changePercent
+              );
+              let formattedMarketCap = formatMarketCap(data.quote.marketCap);
+              let formattedPreviousClose = formatPreviousClose(
+                data.quote.previousClose
+              );
+              let bgColorStyle = calculateBgColorStyle(
+                data.quote.changePercent
+              );
 
-			document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach(e => {
-              e.innerHTML = formattedPrice;
+              document
+                .querySelectorAll(`[data-symbol="${symbol}"] .stock-price`)
+                .forEach((e) => {
+                  e.innerHTML = formattedPrice;
+                });
+
+              document
+                .querySelectorAll(`[data-symbol="${symbol}"] .stock-change`)
+                .forEach((e) => {
+                  e.innerHTML = formattedChange;
+                  e.setAttribute('style', bgColorStyle);
+                });
+
+              document
+                .querySelectorAll(`[data-symbol="${symbol}"] .stock-change-pct`)
+                .forEach((e) => {
+                  e.innerHTML = formattedChangePercent;
+                  e.setAttribute('style', bgColorStyle);
+                });
+
+              if (addTitle) {
+                document
+                  .querySelectorAll(`[data-symbol="${symbol}"] .stock-symbol a`)
+                  .forEach((e) => {
+                    e.setAttribute('title', data.quote.companyName);
+                  });
+              }
+
+              document
+                .querySelectorAll(`[data-symbol="${symbol}"] .previous-close`)
+                .forEach((e) => {
+                  e.innerHTML = formattedPreviousClose;
+                });
+
+              // Changed code here
+              document.querySelector(
+                '.prev-close'
+              ).innerHTML = formattedPreviousClose;
+              const sharesNum = parseInt(shares.replace(',', ''));
+              document.querySelector('.prev-day-portfolio').innerHTML = (
+                formattedPreviousClose * parseInt(sharesNum)
+              ).toLocaleString('en-US');
+              if (symbol === FAVICON_SYMBOL) {
+                updateFavicon(data.quote);
+              }
             });
-
-            document.querySelectorAll(`[data-symbol="${symbol}"] .stock-change`).forEach(e => {
-              e.innerHTML = formattedChange;
-              e.setAttribute('style', bgColorStyle);
-            });
-
-            document.querySelectorAll(`[data-symbol="${symbol}"] .stock-change-pct`).forEach(e => {
-              e.innerHTML = formattedChangePercent;
-              e.setAttribute('style', bgColorStyle);
-            });
-
-            if (addTitle) {
-              document.querySelectorAll(`[data-symbol="${symbol}"] .stock-symbol a`).forEach(e => {
-                e.setAttribute('title', data.quote.companyName);
-              });
-            }
-			
-            document.querySelectorAll(`[data-symbol="${symbol}"] .previous-close`).forEach(e => {
-              e.innerHTML = formattedPreviousClose;
-            });
-
-            if (symbol === FAVICON_SYMBOL) {
-              updateFavicon(data.quote);
-            }
           });
-        });
       }
 
       function portfoliosFromQueryParams() {
@@ -281,7 +354,7 @@ summary::-webkit-details-marker { display: none; }
         let portfolios = [];
 
         for (let p of params) {
-          portfolios.push({'name': p[0], 'symbols': p[1].split(',')});
+          portfolios.push({ name: p[0], symbols: p[1].split(',') });
         }
 
         return portfolios;
@@ -293,7 +366,7 @@ summary::-webkit-details-marker { display: none; }
 
       function formatChange(value) {
         if (value === null || value === undefined) return '';
-        return value.toLocaleString('en', {'minimumFractionDigits': 2});
+        return value.toLocaleString('en', { minimumFractionDigits: 2 });
       }
 
       function formatChangePercent(value) {
@@ -303,20 +376,21 @@ summary::-webkit-details-marker { display: none; }
 
       function formatQuote(value) {
         let options = {
-          'minimumFractionDigits': 2,
-          'style': 'currency',
-          'currency': 'USD'
+          minimumFractionDigits: 2,
+          style: 'currency',
+          currency: 'USD',
         };
         return value.toLocaleString('en', options);
       }
-	  
-	  function formatPreviousClose(value) {
+
+      function formatPreviousClose(value) {
         if (value === null || value === undefined) return '';
-        return value.toLocaleString('en', {'minimumFractionDigits': 2});
+        return value.toLocaleString('en', { minimumFractionDigits: 2 });
       }
 
       function formatMarketCap(marketCap) {
-        if (marketCap === null || marketCap === 0 || marketCap === undefined) return '';
+        if (marketCap === null || marketCap === 0 || marketCap === undefined)
+          return '';
 
         let value, suffix;
         if (marketCap >= 1e12) {
