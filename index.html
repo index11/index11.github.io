@@ -86,7 +86,7 @@ summary::-webkit-details-marker { display: none; }
 
 <table class="tg">
 <tbody>
-  <tr>
+  <tr >
     <td class="tg-0lax">Open</td>
     <td class="tg-0lax">65.58</td>
   </tr>
@@ -112,7 +112,7 @@ summary::-webkit-details-marker { display: none; }
   </tr>
   <tr>
     <td class="tg-0lax">Previous Day Portfolio Value</td>
-    <td class="tg-0lax">'0'</td>
+    <td class="previous-close"></td>
   </tr>
 </tbody>
 </table>
@@ -174,7 +174,7 @@ summary::-webkit-details-marker { display: none; }
 				<th class="total-gain">Total Gain</th>
 				<th class="total-gain-percent">Total Gain %</th>
 				<th class="current-value">Current Value</th>
-				<td class="previous-close">PreviousClose</td>
+				<td class="previous-close">Previous Close</td>
               </tr>
             </thead>
           `
@@ -186,7 +186,7 @@ summary::-webkit-details-marker { display: none; }
 
           let html = `
             <tr data-symbol="${symbol}">
-              <td class="stock-symbol"></td>
+              <td class="stock-symbol">${symbol}</td>
               <td class="stock-price"></td>
               <td class="stock-change"></td>
               <td class="stock-change-pct"></td>
@@ -240,10 +240,10 @@ summary::-webkit-details-marker { display: none; }
             let formattedChange = formatChange(data.quote.change);
             let formattedChangePercent = formatChangePercent(data.quote.changePercent);
             let formattedMarketCap = formatMarketCap(data.quote.marketCap);
-			let formattedPreviousClose = formatQuote(Number(data.quote.previousClose));
+			let formattedPreviousClose = formatPreviousClose(data.quote.previousClose);
             let bgColorStyle = calculateBgColorStyle(data.quote.changePercent)
 
-            document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach(e => {
+			document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach(e => {
               e.innerHTML = formattedPrice;
             });
 
@@ -262,6 +262,10 @@ summary::-webkit-details-marker { display: none; }
                 e.setAttribute('title', data.quote.companyName);
               });
             }
+			
+            document.querySelectorAll(`[data-symbol="${symbol}"] .previous-close`).forEach(e => {
+              e.innerHTML = formattedPreviousClose;
+            });
 
             if (symbol === FAVICON_SYMBOL) {
               updateFavicon(data.quote);
@@ -304,6 +308,11 @@ summary::-webkit-details-marker { display: none; }
           'currency': 'USD'
         };
         return value.toLocaleString('en', options);
+      }
+	  
+	  function formatPreviousClose(value) {
+        if (value === null || value === undefined) return '';
+        return value.toLocaleString('en', {'minimumFractionDigits': 2});
       }
 
       function formatMarketCap(marketCap) {
