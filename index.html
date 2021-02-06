@@ -3,10 +3,10 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
-    <title>REPLACE</title>
+    <title>PORTFOLIO1</title>
     <link rel="icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <meta name="description" content="REPLACE" />
+    <meta name="description" content="PORTFOLIO1" />
 
     <style>
       body {
@@ -156,6 +156,10 @@
       </tbody>
     </table>
 
+
+    <p>Current Value</p>
+    <p class="current cur"></p>
+
     <p class="updated-timestamp"></p>
 
     <script>
@@ -167,7 +171,7 @@
       const API_TOKEN = 'pk_631169fd89684343bda990ebf2b5861b';
 
       const PORTFOLIOS = portfoliosFromQueryParams() || DEFAULT_PORTFOLIOS;
-      const REFRESH_SECONDS = 10;
+      const REFRESH_SECONDS = 100;
       const BATCH_SIZE = 100;
       const BASE_URL = 'https://cloud.iexapis.com/stable/stock/market/batch';
       const FAVICON_SYMBOL = 'GME';
@@ -294,6 +298,10 @@
               let formattedPreviousClose = formatPreviousClose(
                 data.quote.previousClose
               );
+			  let formattedCurrent = formatCurrent(
+                data.quote.latestPrice
+              );
+			  
               let bgColorStyle = calculateBgColorStyle(
                 data.quote.changePercent
               );
@@ -326,13 +334,14 @@
                   });
               }
 
+
+              // Previous Day Calculator
               document
                 .querySelectorAll(`[data-symbol="${symbol}"] .previous-close`)
                 .forEach((e) => {
                   e.innerHTML = formattedPreviousClose;
                 });
 
-              // Changed code here
               document.querySelector(
                 '.prev-close'
               ).innerHTML = formattedPreviousClose;
@@ -340,9 +349,25 @@
               document.querySelector('.prev-day-portfolio').innerHTML = (
                 formattedPreviousClose * parseInt(sharesNum)
               ).toLocaleString('en-US');
-              if (symbol === FAVICON_SYMBOL) {
-                updateFavicon(data.quote);
-              }
+			  
+			  
+			  // Current Value Calculator
+			  document
+                .querySelectorAll(`[data-symbol="${symbol}"] .current`)
+                .forEach((e) => {
+                  e.innerHTML = formattedCurrent;
+                });
+				
+              document.querySelector(
+                '.cur'
+              ).innerHTML = formattedCurrent;
+              const sharesNum2 = parseInt(shares.replace(',', ''));
+              document
+			    .querySelector('.current').innerHTML = (
+                formattedCurrent * parseInt(sharesNum2)
+              ).toLocaleString('en-US');
+			  
+			  
             });
           });
       }
@@ -387,6 +412,11 @@
         if (value === null || value === undefined) return '';
         return value.toLocaleString('en', { minimumFractionDigits: 2 });
       }
+	  
+	  function formatCurrent(value) {
+        if (value === null || value === undefined) return '';
+        return value.toLocaleString('en', { minimumFractionDigits: 2 });
+      }
 
       function formatMarketCap(marketCap) {
         if (marketCap === null || marketCap === 0 || marketCap === undefined)
@@ -412,10 +442,9 @@
       function calculateBgColorStyle(changePercent) {
         if (changePercent === undefined) return '';
 
-        let rgbColor = changePercent > 0 ? '0,255,0' : '255,0,0';
-        let rgbOpacity = Math.min(Math.abs(changePercent) * 20, 1);
+        let rgbColor = changePercent > 0 ? '52,168,83' : '217,48,37';
 
-        return `color: rgba(${rgbColor}, ${rgbOpacity})`;
+        return `color: rgba(${rgbColor})`;
       }
 
       function updateFavicon(quote) {
