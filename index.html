@@ -3,10 +3,10 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
-    <title>PORTFOLIO1</title>
+    <title>www.DeepFuckingValue.bet</title>
     <link rel="icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <meta name="description" content="PORTFOLIO1" />
+    <meta name="description" content="DeepFuckingValue" />
 
     <style>
       body {
@@ -121,6 +121,7 @@
   </head>
 
   <body>
+    <h1>www.DeepFuckingValue.bet</h1>
     <div class="stocks-container"></div>
 
     <table class="tg">
@@ -157,11 +158,15 @@
     </table>
 
     <p class="updated-timestamp"></p>
+	
+	<p class="disclaimer">
+      Disclaimer: Stock price data provided by <a href="https://iexcloud.io" target="_blank">IEX Cloud</a>. I don't know the speed and accuracy of this API/stock price data and server. I don't know the real-time holdings of DeepFuckingValue's GME holdings (data is based on his public Reddit posts). This page provides an estimate and WILL NEVER be 100% accurate. You are on a website created by someonne who views the stock market as a casino, is not a financial adviser, and is too lazy to fix their own typos.
+    </p>
 
     <script>
       'use strict';
 
-      const DEFAULT_PORTFOLIOS = [{ name: 'Portfolio1', symbols: ['GME'] }];
+      const DEFAULT_PORTFOLIOS = [{ name: 'DeepFuckingValue Portfolio Simulator', symbols: ['GME'] }];
 
       // register for a token at https://iexcloud.io/
       const API_TOKEN = 'pk_631169fd89684343bda990ebf2b5861b';
@@ -228,8 +233,8 @@
                 <td class="shares">50,000</td>
        <td class="price-paid">14.8947</td>
        <td class="days-gain days-gain-td"></td>
-       <td class="total-gain"></td>
-       <td class="total-gain-percent"></td>
+       <td class="total-gain total-gain-td"></td>
+       <td class="total-gain-percent total-gain-p-td"></td>
        <td class="current-value current-value-td"></td>
               </tr>
             `;
@@ -365,13 +370,33 @@
                 '.current-value-td'
               ).innerHTML = finalCurrentValue;
 
-              // Day's gain
+              // Day's Gain Calculator
               const currentValNum = parseInt(
                 finalCurrentValue.replace(/,/g, '')
               );
               const prevValNum = parseInt(finalPrevVal.replace(/,/g, ''));
-              document.querySelector('.days-gain-td').innerHTML = (
+              const dayGainNum =  (
                 currentValNum - prevValNum
+              ).toLocaleString('en-US');
+			 
+			  document.querySelector('.days-gain-td').innerHTML = (
+                dayGainNum
+              ).toLocaleString('en-US');
+			  
+			  // Total Gain Calculator
+			  const totalGainNum =  (
+                currentValNum - '744735'
+              ).toLocaleString('en-US');
+              document.querySelector('.total-gain-td').innerHTML = (
+                totalGainNum
+              ).toLocaleString('en-US');
+			  
+			  // Total Gain Percent Calculator
+              const totalGainValue = parseInt(
+                totalGainNum.replace(/,/g, '')
+              );  
+              document.querySelector('.total-gain-p-td').innerHTML = (
+                totalGainValue / '744735' * 100
               ).toLocaleString('en-US');
             });
           });
