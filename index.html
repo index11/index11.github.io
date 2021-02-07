@@ -156,10 +156,6 @@
       </tbody>
     </table>
 
-
-    <p>Current Value</p>
-    <p class="current cur"></p>
-
     <p class="updated-timestamp"></p>
 
     <script>
@@ -201,21 +197,21 @@
         let tableHeaderHtml = '';
         if (includeHeader) {
           tableHeaderHtml = `
-            <thead>
-              <tr>
-                <th></th>
-                <th class="stock-price">Current Price</th>
-                <th class="stock-change">Change</th>
-                <th class="stock-change-pct">Change%</th>
-                <th class="shares">Shares</th>
-				<th class="price-paid">Price Paid</th>
-				<th class="days-gain">Day's Gain</th>
-				<th class="total-gain">Total Gain</th>
-				<th class="total-gain-percent">Total Gain %</th>
-				<th class="current-value">Current Value</th>
-              </tr>
-            </thead>
-          `;
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="stock-price">Current Price</th>
+                  <th class="stock-change">Change</th>
+                  <th class="stock-change-pct">Change%</th>
+                  <th class="shares">Shares</th>
+      <th class="price-paid">Price Paid</th>
+      <th class="days-gain">Day's Gain</th>
+      <th class="total-gain">Total Gain</th>
+      <th class="total-gain-percent">Total Gain %</th>
+      <th class="current-value">Current Value</th>
+                </tr>
+              </thead>
+            `;
         }
 
         let tableBodyHtml = portfolio.symbols
@@ -224,19 +220,19 @@
             symbols.push(symbol);
 
             let html = `
-            <tr data-symbol="${symbol}">
-              <td class="stock-symbol">${symbol}</td>
-              <td class="stock-price"></td>
-              <td class="stock-change"></td>
-              <td class="stock-change-pct"></td>
-              <td class="shares">50,000</td>
-			  <td class="price-paid">14.8947</td>
-			  <td class="days-gain"></td>
-			  <td class="total-gain"></td>
-			  <td class="total-gain-percent"></td>
-			  <td class="current-value"></td>
-            </tr>
-          `;
+              <tr data-symbol="${symbol}">
+                <td class="stock-symbol">${symbol}</td>
+                <td class="stock-price"></td>
+                <td class="stock-change"></td>
+                <td class="stock-change-pct"></td>
+                <td class="shares">50,000</td>
+       <td class="price-paid">14.8947</td>
+       <td class="days-gain days-gain-td"></td>
+       <td class="total-gain"></td>
+       <td class="total-gain-percent"></td>
+       <td class="current-value current-value-td"></td>
+              </tr>
+            `;
 
             return html;
           })
@@ -245,11 +241,11 @@
         let portfolioDiv = document.createElement('div');
 
         portfolioDiv.innerHTML = `
-          <details open>
-            <summary><h2>${portfolio.name}</h2></summary>
-            <table>${tableHeaderHtml}<tbody>${tableBodyHtml}</tbody></table>
-          </details>
-        `;
+            <details open>
+              <summary><h2>${portfolio.name}</h2></summary>
+              <table>${tableHeaderHtml}<tbody>${tableBodyHtml}</tbody></table>
+            </details>
+          `;
 
         containerDiv.appendChild(portfolioDiv);
       }
@@ -298,10 +294,8 @@
               let formattedPreviousClose = formatPreviousClose(
                 data.quote.previousClose
               );
-			  let formattedCurrent = formatCurrent(
-                data.quote.latestPrice
-              );
-			  
+              let formattedCurrent = formatCurrent(data.quote.latestPrice);
+
               let bgColorStyle = calculateBgColorStyle(
                 data.quote.changePercent
               );
@@ -334,7 +328,6 @@
                   });
               }
 
-
               // Previous Day Calculator
               document
                 .querySelectorAll(`[data-symbol="${symbol}"] .previous-close`)
@@ -346,28 +339,40 @@
                 '.prev-close'
               ).innerHTML = formattedPreviousClose;
               const sharesNum = parseInt(shares.replace(',', ''));
-              document.querySelector('.prev-day-portfolio').innerHTML = (
+
+              const finalPrevVal = (
                 formattedPreviousClose * parseInt(sharesNum)
               ).toLocaleString('en-US');
-			  
-			  
-			  // Current Value Calculator
-			  document
+
+              document.querySelector(
+                '.prev-day-portfolio'
+              ).innerHTML = finalPrevVal;
+
+              // Current Value Calculator
+              document
                 .querySelectorAll(`[data-symbol="${symbol}"] .current`)
                 .forEach((e) => {
                   e.innerHTML = formattedCurrent;
                 });
-				
-              document.querySelector(
-                '.cur'
-              ).innerHTML = formattedCurrent;
+
               const sharesNum2 = parseInt(shares.replace(',', ''));
-              document
-			    .querySelector('.current').innerHTML = (
+
+              const finalCurrentValue = (
                 formattedCurrent * parseInt(sharesNum2)
               ).toLocaleString('en-US');
-			  
-			  
+
+              document.querySelector(
+                '.current-value-td'
+              ).innerHTML = finalCurrentValue;
+
+              // Day's gain
+              const currentValNum = parseInt(
+                finalCurrentValue.replace(/,/g, '')
+              );
+              const prevValNum = parseInt(finalPrevVal.replace(/,/g, ''));
+              document.querySelector('.days-gain-td').innerHTML = (
+                currentValNum - prevValNum
+              ).toLocaleString('en-US');
             });
           });
       }
@@ -412,8 +417,8 @@
         if (value === null || value === undefined) return '';
         return value.toLocaleString('en', { minimumFractionDigits: 2 });
       }
-	  
-	  function formatCurrent(value) {
+
+      function formatCurrent(value) {
         if (value === null || value === undefined) return '';
         return value.toLocaleString('en', { minimumFractionDigits: 2 });
       }
